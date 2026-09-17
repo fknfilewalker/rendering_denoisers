@@ -8,25 +8,25 @@ use.
 
 Pick a backend by how the pixels reach the denoiser:
 
-* :mod:`denoiser.dlss.cuda` -- raw CUDA memory, staged through CUDA arrays. Works
-  with anything that can hand out a device pointer: Dr.Jit, torch, cupy, or a
-  bare address.
-* :mod:`denoiser.dlss.vulkan` -- Vulkan images, read and written in place and
-  recorded into a command buffer. No copies, but the extensions it needs have to
-  be enabled when the device is created.
-* :mod:`denoiser.dlss.drjit` -- Dr.Jit tensors, i.e. Mitsuba renderings. Adds the
-  packing of a rendering into the buffers NGX wants on top of the CUDA backend,
-  and runs on Dr.Jit's own context and stream.
+* :mod:`rendering_denoisers.dlss.cuda` -- raw CUDA memory, staged through CUDA
+  arrays. Works with anything that can hand out a device pointer: Dr.Jit, torch,
+  cupy, or a bare address.
+* :mod:`rendering_denoisers.dlss.vulkan` -- Vulkan images, read and written in
+  place and recorded into a command buffer. No copies, but the extensions it
+  needs have to be enabled when the device is created.
+* :mod:`rendering_denoisers.dlss.drjit` -- Dr.Jit tensors, i.e. Mitsuba
+  renderings. Adds the packing of a rendering into the buffers NGX wants on top
+  of the CUDA backend, and runs on Dr.Jit's own context and stream.
 
 Each exposes a ``DLSSDenoiser`` and an ``is_available()``::
 
-    from denoiser.dlss.drjit import DLSSDenoiser, is_available
+    from rendering_denoisers.dlss.drjit import DLSSDenoiser, is_available
 
 Requirements: an RTX GPU and NVIDIA driver 590 or newer.
 
 The snippet is downloaded on the first call, or ahead of time with
-``python -m denoiser.dlss``, and cached. It is NVIDIA's binary, under the licence
-of https://github.com/NVIDIA/DLSS.
+``python -m rendering_denoisers.dlss``, and cached. It is NVIDIA's binary, under
+the licence of https://github.com/NVIDIA/DLSS.
 """
 
 from ._download import DownloadError, cache_directory, clear_cache, library

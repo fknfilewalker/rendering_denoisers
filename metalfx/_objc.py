@@ -18,8 +18,9 @@ try:
     import objc
     from objc import simd
 except ImportError as e:  # pragma: no cover - the package only loads on macOS
-    raise ImportError("denoiser.metalfx needs macOS with pyobjc-framework-Metal and "
-                      "pyobjc-framework-MetalFX installed") from e
+    raise ImportError("rendering_denoisers.metalfx needs macOS with "
+                      "pyobjc-framework-Metal and pyobjc-framework-MetalFX "
+                      "installed") from e
 
 
 class MetalFXError(RuntimeError):

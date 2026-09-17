@@ -14,7 +14,7 @@ Each buffer can be given two ways:
 
 Usage, upscaling 960x540 to 1920x1080 with the real-time ray tracing denoiser::
 
-    from denoiser.metalfx.metal import TemporalDenoisedScaler
+    from rendering_denoisers.metalfx.metal import TemporalDenoisedScaler
 
     fx = TemporalDenoisedScaler((960, 540), (1920, 1080))
     fx.world_to_view = camera.world_to_view      # 4x4, row major
@@ -38,7 +38,8 @@ from ._objc import MetalFXError, Texture, as_object, camel, default_device, to_s
 try:
     import MetalFX as _MetalFX
 except ImportError as e:  # pragma: no cover - the package only loads on macOS
-    raise ImportError("denoiser.metalfx needs macOS with pyobjc-framework-MetalFX") from e
+    raise ImportError("rendering_denoisers.metalfx needs macOS with "
+                      "pyobjc-framework-MetalFX") from e
 
 __all__ = ["Effect", "SpatialScaler", "TemporalScaler", "TemporalDenoisedScaler",
            "MetalFXError", "is_available"]

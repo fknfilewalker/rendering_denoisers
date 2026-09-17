@@ -2,14 +2,14 @@
 
 Everything Dr.Jit-specific lives here: where Dr.Jit runs (its CUDA context and
 stream, read out of ``drjit-core``) and how a rendering is packed into the
-buffers NGX wants. :mod:`denoiser.dlss.cuda` underneath knows
+buffers NGX wants. :mod:`rendering_denoisers.dlss.cuda` underneath knows
 nothing about it.
 
 The interface follows the ``DLSSDenoiser`` proposed in mitsuba3 PR #1957, so that
 it can be used from an ordinary ``pip install mitsuba`` without rebuilding
 anything. Images are ``mi.TensorXf`` shaped ``(height, width, channels)``::
 
-    from denoiser.dlss.drjit import DLSSDenoiser
+    from rendering_denoisers.dlss.drjit import DLSSDenoiser
 
     dlss = DLSSDenoiser((960, 540), (1920, 1080), quality="high")
     denoised = dlss(noisy, albedo, normals, depth, specular_albedo=specular,
@@ -102,7 +102,8 @@ def stream() -> int:
 def support_status(**kwargs) -> tuple[bool, str]:
     """Whether Ray Reconstruction runs on the device Dr.Jit renders on.
 
-    Returns (supported, reason); see :func:`denoiser.dlss.cuda.support_status`.
+    Returns (supported, reason); see
+    :func:`rendering_denoisers.dlss.cuda.support_status`.
     """
     kwargs.setdefault("context", context())
     return _backend.support_status(**kwargs)
@@ -175,9 +176,10 @@ class DLSSDenoiser(_backend.DLSSDenoiser):
             ``"high"``, ``"balanced"`` or ``"fast"``. Has no effect when
             `output_size` equals `input_size`.
 
-    Everything else is forwarded to :class:`denoiser.dlss.cuda.DLSSDenoiser`,
-    notably ``library_path``, ``download`` and ``version``, which control where
-    the Ray Reconstruction snippet comes from.
+    Everything else is forwarded to
+    :class:`rendering_denoisers.dlss.cuda.DLSSDenoiser`, notably
+    ``library_path``, ``download`` and ``version``, which control where the Ray
+    Reconstruction snippet comes from.
     """
 
     def __init__(self, input_size, output_size=None, quality: str = "high", **kwargs):

@@ -1,15 +1,15 @@
 """The MetalFX scalers on Dr.Jit tensors, running on Dr.Jit's own Metal device.
 
 Everything Dr.Jit-specific lives here: where Dr.Jit runs, and the conversion
-between its tensors and the textures MetalFX reads. :mod:`denoiser.metalfx.metal`
-underneath knows nothing about it.
+between its tensors and the textures MetalFX reads.
+:mod:`rendering_denoisers.metalfx.metal` underneath knows nothing about it.
 
 ``drjit-core`` exports the handles of its Metal backend the same way it exports
 its CUDA context and stream, so the effects can be built on the device and the
 command queue the renderer already uses -- no second device, no cross-device
 copies, and the work is encoded onto the queue the kernels are on::
 
-    from denoiser.metalfx.drjit import TemporalDenoisedScaler
+    from rendering_denoisers.metalfx.drjit import TemporalDenoisedScaler
 
     fx = TemporalDenoisedScaler((960, 540), (1920, 1080))
     denoised = fx(color=color, depth=depth, motion=motion, normal=normal,
@@ -20,7 +20,8 @@ One limitation to be aware of: the pixels still make a round trip through the
 host. Dr.Jit exposes its Metal *device* and *queue*, but nothing that reaches the
 ``MTLBuffer`` behind a variable, so there is no way from Python to alias one as a
 texture. Should Dr.Jit gain a buffer accessor or DLPack on Metal, the one place
-to change is :class:`denoiser.metalfx._objc.Texture`; everything here stays.
+to change is :class:`rendering_denoisers.metalfx._objc.Texture`; everything
+here stays.
 """
 
 import ctypes

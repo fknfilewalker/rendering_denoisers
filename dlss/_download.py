@@ -103,6 +103,20 @@ def _blob_sha1(path: pathlib.Path) -> str:
     return digest.hexdigest()
 
 
+def _notice(version: str):
+    """Say whose binary this is, and under what terms, before fetching it.
+
+    The snippet is not part of this package and is never redistributed with it:
+    it comes from NVIDIA, and the licence is accepted by whoever runs the
+    download, on their own machine. Printed unconditionally, since a licence
+    notice should not depend on ``progress``.
+    """
+    for line in (f"fetching the Ray Reconstruction snippet from {REPO} {version}.",
+                 "The binary is NVIDIA's, not part of this package; using it",
+                 f"means accepting https://github.com/{REPO}/blob/{version}/LICENSE.txt"):
+        print(f"[dlss] {line}", file=sys.stderr)
+
+
 def _fetch(entry: dict, destination: pathlib.Path, progress: bool):
     destination.parent.mkdir(parents=True, exist_ok=True)
     total = entry.get("size", 0)
@@ -159,6 +173,7 @@ def library(version: str | None = None, *, variant: str = "rel",
     entries = [e for e in _listing(version, variant) if e["name"].startswith(prefix)]
     if not entries:
         raise DownloadError(f"{REPO} {version} has no {prefix}* for this platform")
+    _notice(version)
     _fetch(entries[0], directory / entries[0]["name"], progress)
     return directory
 

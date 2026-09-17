@@ -3,8 +3,8 @@
 What a DLSS-D feature *is* -- its resolution pair, quality level, creation flags
 and the two parameter blocks NGX reads at create and evaluate time -- does not
 depend on whether the pixels arrive as CUDA memory or as Vulkan images. That part
-lives here; :mod:`denoiser.dlss.cuda` and :mod:`denoiser.dlss.vulkan` add the
-resource handling around it.
+lives here; :mod:`rendering_denoisers.dlss.cuda` and
+:mod:`rendering_denoisers.dlss.vulkan` add the resource handling around it.
 """
 
 from ._ngx import DLSSError, Parameters

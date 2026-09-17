@@ -18,7 +18,7 @@ its images -- but it is also the one with the strings attached:
 Handles are plain integers, so this works with any Vulkan binding -- a framework
 that hands out native handles, ``vulkan``/``pyvk``, or ctypes::
 
-    from denoiser.dlss import vulkan
+    from rendering_denoisers.dlss import vulkan
 
     ext = vulkan.required_extensions()           # before creating the device
     dlss = vulkan.DLSSDenoiser(instance, physical_device, device, (960, 540), (1920, 1080))
@@ -243,7 +243,7 @@ class DLSSDenoiser(Feature):
             first call.
 
     The feature configuration and the snippet options are those of
-    :class:`denoiser.dlss.cuda.DLSSDenoiser`.
+    :class:`rendering_denoisers.dlss.cuda.DLSSDenoiser`.
     """
 
     def __init__(self, instance: int, physical_device: int, device: int, command_buffer: int,

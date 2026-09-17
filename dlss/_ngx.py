@@ -4,8 +4,8 @@ The NGX component of the driver (``_nvngx.dll`` on Windows,
 ``libnvidia-ngx.so.1`` on Linux) exports every backend of the NGX API as flat C
 entry points, so no C++ glue is needed: ctypes binds the driver directly. This
 module holds what the CUDA and Vulkan backends share -- the loader, the parameter
-object, feature discovery -- and :mod:`denoiser.dlss.cuda` and
-:mod:`denoiser.dlss.vulkan` build the denoisers on top.
+object, feature discovery -- and :mod:`rendering_denoisers.dlss.cuda` and
+:mod:`rendering_denoisers.dlss.vulkan` build the denoisers on top.
 
 Two details deviate from the DLSS SDK headers:
 

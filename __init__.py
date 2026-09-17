@@ -1,15 +1,16 @@
-"""Real-time denoisers and upscalers for rtm.
+"""Real-time denoisers and upscalers for path traced renderings.
 
 Two vendor libraries, one per platform, of which only the one this machine can
 actually run is imported:
 
-* :mod:`denoiser.dlss` -- NVIDIA DLSS Ray Reconstruction, on Windows and Linux.
-  Backends for raw CUDA memory, Vulkan images, and Dr.Jit tensors
-  (:mod:`denoiser.dlss.drjit`, the one Mitsuba renderings go through). Needs an
-  RTX GPU and driver 590 or newer; the feature library is downloaded on first
-  use.
-* :mod:`denoiser.metalfx` -- the MetalFX spatial and temporal scalers, including
-  the denoised temporal scaler of macOS 26. Needs macOS and pyobjc.
+* :mod:`rendering_denoisers.dlss` -- NVIDIA DLSS Ray Reconstruction, on Windows
+  and Linux. Backends for raw CUDA memory, Vulkan images, and Dr.Jit tensors
+  (:mod:`rendering_denoisers.dlss.drjit`, the one Mitsuba renderings go
+  through). Needs an RTX GPU and driver 590 or newer; the feature library is
+  downloaded on first use.
+* :mod:`rendering_denoisers.metalfx` -- the MetalFX spatial and temporal
+  scalers, including the denoised temporal scaler of macOS 26. Needs macOS and
+  pyobjc.
 
 Both are temporal: they want one sample per pixel with a known sub-pixel jitter,
 screen-space motion vectors and separated guide buffers, not an accumulated

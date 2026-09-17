@@ -9,7 +9,8 @@ normals 4 (roughness packed into ``.w``), albedos 4, output 4.
 NGX reads through CUDA texture objects and writes through a surface object, so
 the denoiser owns the CUDA arrays and blits in and out of them, the way Mitsuba's
 own DLSS denoiser does. It needs neither the CUDA toolkit nor any particular
-rendering framework; :mod:`denoiser.dlss.drjit` wires it up to Dr.Jit tensors.
+rendering framework; :mod:`rendering_denoisers.dlss.drjit` wires it up to Dr.Jit
+tensors.
 
 DLSS-D is *temporal*: it wants one sample per pixel with a known sub-pixel jitter,
 screen-space motion vectors and separated guide buffers, not an accumulated image.
@@ -68,7 +69,8 @@ class DLSSDenoiser(Feature):
     default stream. Pass the renderer's own pair to have the copies and the
     evaluation ordered against its kernels without a synchronisation point.
 
-    Beyond the feature configuration of :class:`denoiser.dlss._feature.Feature`:
+    Beyond the feature configuration of
+    :class:`rendering_denoisers.dlss._feature.Feature`:
 
     Args:
         context: The CUDA context to run on.

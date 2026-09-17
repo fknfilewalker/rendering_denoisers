@@ -1,11 +1,12 @@
-"""Download the DLSS Ray Reconstruction snippet: ``python -m denoiser.dlss``."""
+"""Download the DLSS Ray Reconstruction snippet, ahead of its first use."""
 
 import argparse
 
 from ._download import cache_directory, clear_cache, library
 
-parser = argparse.ArgumentParser(prog="python -m denoiser.dlss", description=
-                                 "Download the NVIDIA DLSS Ray Reconstruction snippet.")
+parser = argparse.ArgumentParser(
+    prog="python -m rendering_denoisers.dlss",
+    description="Download the NVIDIA DLSS Ray Reconstruction snippet.")
 parser.add_argument("--version", default=None, help='tag of NVIDIA/DLSS, or "latest"')
 parser.add_argument("--variant", default="rel", choices=("rel", "dev"),
                     help="release build, or the one with the debug overlay")

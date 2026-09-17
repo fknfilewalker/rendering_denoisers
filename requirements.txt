@@ -1,0 +1,3 @@
+numpy; sys_platform == "darwin"
+pyobjc-framework-Metal; sys_platform == "darwin"
+pyobjc-framework-MetalFX; sys_platform == "darwin"

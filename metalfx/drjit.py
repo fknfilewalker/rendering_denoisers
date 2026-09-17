@@ -25,8 +25,6 @@ here stays.
 """
 
 import ctypes
-import os
-import sys
 
 import drjit as dr
 
@@ -53,14 +51,14 @@ class _Core:
     _instance = None
 
     def __init__(self):
-        name = {"win32": "drjit-core.dll", "darwin": "libdrjit-core.dylib"}.get(
-            sys.platform, "libdrjit-core.so")
-        path = os.path.join(os.path.dirname(dr.__file__), name)
+        name = "libdrjit-core.dylib"
         try:
-            # Already loaded by Dr.Jit itself; this only resolves symbols in it.
-            self.lib = ctypes.CDLL(path)
+            # Dr.Jit has already loaded it, next to the package in a wheel or
+            # elsewhere in a build tree; asked for by its bare name, the loader
+            # hands back that copy, so this only resolves symbols in it.
+            self.lib = ctypes.CDLL(name)
         except OSError as e:
-            raise MetalFXError(f"could not load {path}: {e}") from e
+            raise MetalFXError(f"could not load {name}: {e}") from e
         self.device = self._bind("jit_metal_device_handle")
         self.queue = self._bind("jit_metal_queue")
 

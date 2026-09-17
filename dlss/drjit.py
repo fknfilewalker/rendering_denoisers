@@ -27,7 +27,6 @@ history has to be dropped with ``reset=True`` whenever the sequence breaks.
 
 import ctypes
 import importlib
-import os
 import sys
 
 import drjit as dr
@@ -60,14 +59,14 @@ class _Core:
     _instance = None
 
     def __init__(self):
-        name = {"win32": "drjit-core.dll", "darwin": "libdrjit-core.dylib"}.get(
-            sys.platform, "libdrjit-core.so")
-        path = os.path.join(os.path.dirname(dr.__file__), name)
+        name = "drjit-core.dll" if sys.platform == "win32" else "libdrjit-core.so"
         try:
-            # Already loaded by Dr.Jit itself; this only resolves symbols in it.
-            self.lib = ctypes.CDLL(path)
+            # Dr.Jit has already loaded it, next to the package in a wheel or
+            # elsewhere in a build tree; asked for by its bare name, the loader
+            # hands back that copy, so this only resolves symbols in it.
+            self.lib = ctypes.CDLL(name)
         except OSError as e:
-            raise DLSSError(f"could not load {path}: {e}") from e
+            raise DLSSError(f"could not load {name}: {e}") from e
         self.context = self._bind("jit_cuda_context", ctypes.c_void_p)
         self.stream = self._bind("jit_cuda_stream", ctypes.c_void_p)
         self.device_raw = self._bind("jit_cuda_device_raw", ctypes.c_int)

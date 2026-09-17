@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rendering-denoisers"
+version = "0.1.0"
+description = "Real-time denoisers and upscalers for path traced renderings: NVIDIA DLSS Ray Reconstruction and MetalFX"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Lukas Lipp", email = "lukas.lipp@cg.tuwien.ac.at" }]
+keywords = ["denoising", "upscaling", "dlss", "metalfx", "ray-tracing", "rendering"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Graphics :: 3D Rendering",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+]
+
+# The DLSS side needs nothing but the standard library: NGX and the CUDA driver
+# API are bound with ctypes, and the Ray Reconstruction snippet is downloaded
+# with urllib. MetalFX needs PyObjC and numpy, and only exists on Apple.
+dependencies = [
+    'numpy; sys_platform == "darwin"',
+    'pyobjc-framework-Metal; sys_platform == "darwin"',
+    'pyobjc-framework-MetalFX; sys_platform == "darwin"',
+]
+
+[project.optional-dependencies]
+# Only rendering_denoisers.dlss.drjit and .metalfx.drjit import Dr.Jit; the
+# backend-agnostic modules never do.
+drjit = ["drjit"]
+
+[project.urls]
+Homepage = "https://github.com/fknfilewalker/rendering_denoisers"
+Issues = "https://github.com/fknfilewalker/rendering_denoisers/issues"
+
+# The package lives at the repository root rather than in a src/ directory, so
+# that a checkout can be imported where it sits -- as a git submodule of a
+# renderer, say. Mapping the package name onto "." is what lets the same layout
+# also build a wheel.
+[tool.setuptools]
+packages = [
+    "rendering_denoisers",
+    "rendering_denoisers.dlss",
+    "rendering_denoisers.metalfx",
+]
+
+[tool.setuptools.package-dir]
+rendering_denoisers = "."
